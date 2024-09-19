@@ -17,3 +17,8 @@ body {
   align-items: center;
   text-align: center;
 }
+
+.section {
+  width: 33vw;
+  height: fit-content;
+}

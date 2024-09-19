@@ -9,6 +9,7 @@ import type PrefectureData from './types/PrefectureData';
 const endpoint = import.meta.env.VITE_API_ENDPOINT;
 const api_key = import.meta.env.VITE_API_KEY;
 
+const prefectureOptions = ref<PrefectureData[]>([]);
 const selectedPrefectures = ref<PrefectureData[]>([]);
 
 const fetchAllPrefectures = async () => {
@@ -20,7 +21,7 @@ const fetchAllPrefectures = async () => {
     })
     .then(res => {
       const data: PrefectureData[] = res.data.result;
-      selectedPrefectures.value = data;
+      prefectureOptions.value = data;
     })
     .catch(err => console.log(err));
 }
@@ -33,7 +34,7 @@ onMounted(() => {
 <template>
   <div class="container">
     <p>frontend coding practice project</p>
-    <AreaOptions />
+    <AreaOptions :area-data="prefectureOptions" v-model="selectedPrefectures" />
     <MenuOptions />
     <GraphComponent />
   </div>

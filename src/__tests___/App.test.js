@@ -25,9 +25,11 @@ const mockPrefectureData = [
         "prefName": "秋田県"
     }
 ];
-vi.spyOn(axios, 'get').mockResolvedValue(mockPrefectureData);
 
 test('fetch prefecture data on initial render', async () => {
+    expect(App).toBeTruthy();
+
+    vi.spyOn(axios, 'get').mockResolvedValue(mockPrefectureData);
     mount(App);
 
     await flushPromises();
