@@ -29,7 +29,7 @@ function getComponentWrapper(props = {}) {
   return mount(AreaOptions, {
     props
   });
-};
+}
 
 test('render prefecture data on mount', async () => {
   expect(AreaOptions).toBeTruthy();
@@ -43,4 +43,23 @@ test('render prefecture data on mount', async () => {
   // check labels are rendered with correct text
   const checkText = checkboxes.filter((c, index) => c.text === mockPrefectureData[index].prefName);
   expect(checkText).toBeTruthy();
+});
+
+test('inputs check and uncheck upon click', async () => {
+  const wrapper = getComponentWrapper({
+    areaData: mockPrefectureData
+  });
+  const checkboxes = wrapper.findAll("input[type='checkbox']");
+  const firstCheckbox = checkboxes[0];
+  const secondCheckbox = checkboxes[1];
+
+  await firstCheckbox.trigger('click');
+
+  expect(firstCheckbox.element.checked).toBeTruthy();
+  expect(secondCheckbox.element.checked).toBeFalsy();
+
+  await firstCheckbox.trigger('click');
+
+  expect(firstCheckbox.element.checked).toBeFalsy();
+  expect(secondCheckbox.element.checked).toBeFalsy();
 });
