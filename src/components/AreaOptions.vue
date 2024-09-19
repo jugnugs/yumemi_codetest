@@ -4,15 +4,20 @@ import type PrefectureData from '@/types/PrefectureData';
 defineProps<{
   areaData?: PrefectureData[];
 }>();
-const areasChecked = defineModel<PrefectureData[]>();
+const emits = defineEmits<{
+  handleChecked: [area: PrefectureData]
+  handleUnchecked: [area: PrefectureData]
+}>();
 
 const updateAreasChecked = (event: Event, area: PrefectureData) => {
   const el = event.target as HTMLInputElement;
   if (el.checked) {
-    areasChecked.value?.push(area);
+    // if checked interaction, add area
+    emits('handleChecked', area);
   }
   else {
-    areasChecked.value = areasChecked.value?.filter(a => a.prefCode !== area.prefCode);
+    // if unchecked, delete area
+    emits('handleUnchecked', area);
   }
 };
 

@@ -5,12 +5,14 @@ import GraphComponent from './components/GraphComponent.vue';
 import MenuOptions from './components/MenuOptions.vue';
 import axios from 'axios';
 import type PrefectureData from './types/PrefectureData';
+import type { GraphResponseData, GraphData } from './types/GraphData';
 
 const endpoint = import.meta.env.VITE_API_ENDPOINT;
 const api_key = import.meta.env.VITE_API_KEY;
 
 const prefectureOptions = ref<PrefectureData[]>([]);
-const selectedPrefectures = ref<PrefectureData[]>([]);
+
+const graphData = ref<GraphData[]>([]);
 
 const fetchAllPrefectures = async () => {
   await axios
@@ -19,22 +21,53 @@ const fetchAllPrefectures = async () => {
         'X-API-KEY': api_key
       }
     })
-    .then(res => {
+    .then((res) => {
       const data: PrefectureData[] = res.data.result;
       prefectureOptions.value = data;
     })
-    .catch(err => console.log(err));
-}
+    .catch((err) => console.log(err));
+};
+
+const fetchPopulationDataForArea = async (area: PrefectureData) => {
+  let graphDataForArea: GraphData | null = null;
+  await axios
+    .get(endpoint + `/population/composition/perYear?cityCode=-&prefCode=${area.prefCode}`, {
+      headers: {
+        'X-API-KEY': api_key
+      }
+    })
+    .then((res) => {
+      const data: GraphResponseData[] = res.data.result.data;
+      // get total population data
+      graphDataForArea = {
+        areaName: area.prefName,
+        data: data[0].data.map((d) => d.value)
+      };
+      return graphDataForArea;
+    })
+    .catch((err) => console.log(err));
+  return graphDataForArea;
+};
 
 onMounted(() => {
   fetchAllPrefectures();
 });
+
+const addGraphData = async (areaToAdd: PrefectureData) => {
+  const newGraphData = await fetchPopulationDataForArea(areaToAdd);
+  if (newGraphData) {
+    graphData.value.push(newGraphData);
+  }
+};
+
+const deleteGraphData = async (areaToDelete: PrefectureData) => {
+  graphData.value = graphData.value.filter(item => item.areaName !== areaToDelete.prefName);
+};
 </script>
 
 <template>
   <div class="container">
-    <p>frontend coding practice project</p>
-    <AreaOptions :area-data="prefectureOptions" v-model="selectedPrefectures" />
+    <AreaOptions :area-data="prefectureOptions" @handle-checked="addGraphData" @handle-unchecked="deleteGraphData" />
     <MenuOptions />
     <GraphComponent />
   </div>
