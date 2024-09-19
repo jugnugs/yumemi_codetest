@@ -66,6 +66,7 @@ const deleteGraphData = async (areaToDelete: PrefectureData) => {
 </script>
 
 <template>
+  <div class="title">都道府県別の総人口推移</div>
   <div class="container">
     <AreaOptions :area-data="prefectureOptions" @handle-checked="addGraphData" @handle-unchecked="deleteGraphData" />
     <MenuOptions />
@@ -73,4 +74,11 @@ const deleteGraphData = async (areaToDelete: PrefectureData) => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.title {
+  position: sticky;
+  top: 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+</style>

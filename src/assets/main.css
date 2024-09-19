@@ -13,12 +13,20 @@ body {
   width: 100%;
   height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: start;
   align-items: center;
+  gap: 5vh;
   text-align: center;
 }
 
 .section {
   width: 33vw;
   height: fit-content;
+}
+
+h1 {
+  font-size: 2rem;
+  text-align: left;
+  margin-bottom: 1rem;
 }
