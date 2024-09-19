@@ -9,6 +9,6 @@ export interface GraphResponseData {
 }
 
 export interface GraphData {
-    areaName: string,
+    name: string,
     data: number[]
 }

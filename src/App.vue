@@ -40,7 +40,7 @@ const fetchPopulationDataForArea = async (area: PrefectureData) => {
       const data: GraphResponseData[] = res.data.result.data;
       // get total population data
       graphDataForArea = {
-        areaName: area.prefName,
+        name: area.prefName,
         data: data[0].data.map((d) => d.value)
       };
       return graphDataForArea;
@@ -61,7 +61,7 @@ const addGraphData = async (areaToAdd: PrefectureData) => {
 };
 
 const deleteGraphData = async (areaToDelete: PrefectureData) => {
-  graphData.value = graphData.value.filter(item => item.areaName !== areaToDelete.prefName);
+  graphData.value = graphData.value.filter(item => item.name !== areaToDelete.prefName);
 };
 </script>
 
@@ -69,7 +69,7 @@ const deleteGraphData = async (areaToDelete: PrefectureData) => {
   <div class="container">
     <AreaOptions :area-data="prefectureOptions" @handle-checked="addGraphData" @handle-unchecked="deleteGraphData" />
     <MenuOptions />
-    <GraphComponent />
+    <GraphComponent :graph-data="graphData" />
   </div>
 </template>
 
