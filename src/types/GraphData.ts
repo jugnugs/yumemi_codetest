@@ -8,6 +8,10 @@ export interface GraphResponseData {
     ]
 }
 
+export interface AggregateGraphData {
+    [key: string]: GraphData[],
+}
+
 export interface GraphData {
     name: string,
     data: number[]
