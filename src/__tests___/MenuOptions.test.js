@@ -2,8 +2,10 @@ import { mount } from '@vue/test-utils';
 import { expect, test } from 'vitest';
 import MenuOptions from '../components/MenuOptions.vue';
 
-function getComponentWrapper() {
-  return mount(MenuOptions, {});
+function getComponentWrapper(props = {}) {
+  return mount(MenuOptions, {
+    props
+  });
 }
 
 test('should render menu options as checkboxes on mount', async () => {
@@ -33,4 +35,23 @@ test('inputs check and uncheck upon click', async () => {
     await secondRadiobox.trigger('click');
     expect(firstRadiobox.element.checked).toBeFalsy();
     expect(secondRadiobox.element.checked).toBeTruthy();
+});
+
+test('selected radio button is checked', async () => {
+    const wrapper = getComponentWrapper({
+        modelValue: "総人口"
+    });
+
+    const radioboxes = wrapper.findAll("input[type='radio']");
+    const firstRadiobox = radioboxes[0];
+    const thirdRadiobox = radioboxes[2];
+
+    expect(firstRadiobox.element.checked).toBeTruthy();
+    expect(thirdRadiobox.element.checked).toBeFalsy();
+
+    await wrapper.setProps({
+        modelValue: "生産年齢人口"
+    });
+    expect(firstRadiobox.element.checked).toBeFalsy();
+    expect(thirdRadiobox.element.checked).toBeTruthy();
 });

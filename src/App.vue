@@ -11,7 +11,7 @@ const endpoint = import.meta.env.VITE_API_ENDPOINT;
 const api_key = import.meta.env.VITE_API_KEY;
 
 const prefectureOptions = ref<PrefectureData[]>([]);
-
+const selectedMenuOption = ref<string>('総人口');
 const graphData = ref<GraphData[]>([]);
 
 const fetchAllPrefectures = async () => {
@@ -69,7 +69,7 @@ const deleteGraphData = async (areaToDelete: PrefectureData) => {
   <div class="title">都道府県別の総人口推移</div>
   <div class="container">
     <AreaOptions :area-data="prefectureOptions" @handle-checked="addGraphData" @handle-unchecked="deleteGraphData" />
-    <MenuOptions />
+    <MenuOptions v-model="selectedMenuOption" />
     <GraphComponent :graph-data="graphData" />
   </div>
 </template>
