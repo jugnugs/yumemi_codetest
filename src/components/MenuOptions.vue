@@ -26,6 +26,8 @@ const handleClick = (newSelectedOption : string) => {
 <style scoped>
 .menu-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: clamp(0.5rem, 0.5rem + 1vw, 2.5rem);
 }
 </style>

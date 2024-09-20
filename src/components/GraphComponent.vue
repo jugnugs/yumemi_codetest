@@ -1,9 +1,35 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 
 const { graphData } = defineProps(['graphData']);
 
-const displayChart = computed(() => graphData.length > 0 ? true : false);
+const windowWidth = ref(window.innerWidth);
+
+const updateWindowSize = () => {
+  windowWidth.value = window.innerWidth;
+};
+
+onMounted(() => {
+  window.addEventListener('resize', updateWindowSize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateWindowSize);
+});
+
+const displayChart = computed(() => (graphData.length > 0 ? true : false));
+
+const legendOptions = computed(() =>
+  windowWidth.value >= 768
+    ? {
+        layout: 'proximate',
+        align: 'right'
+      }
+    : {
+        layout: 'horizontal',
+        align: 'center'
+      }
+);
 
 const chartOptions = computed(() => {
   return {
@@ -28,10 +54,7 @@ const chartOptions = computed(() => {
         pointInterval: 5
       }
     },
-    legend: {
-      layout: 'proximate',
-      align: 'right'
-    }
+    legend: legendOptions.value
   };
 });
 </script>

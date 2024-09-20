@@ -90,7 +90,21 @@ const deleteGraphData = async (areaToDelete: PrefectureData) => {
 .title {
   position: sticky;
   top: 0;
-  font-size: 2.5rem;
+  height: fit-content;
+  font-size: clamp(1.5rem, 1.5rem + 1vw, 2.5rem);
   font-weight: 700;
+  text-align: center;
+  background-color: var(--theme-background);
 }
+
+.container {
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  gap: 5vh;
+  text-align: center;
+}
+
 </style>

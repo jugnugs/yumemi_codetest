@@ -1,32 +1,56 @@
 @import './reset.css';
 
 :root {
+  --color-dark:#333333;
+  --color-white: #ffffff;
+
+  --theme-background: var(--color-dark);
+  --theme-font-color: var(--color-white);
   font-size: 18px;
 }
 
 body {
+  background-color: var(--theme-background);
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol';
+  color: var(--theme-font-color);
 }
 
 #app {
   width: 100%;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: center;
-  gap: 5vh;
-  text-align: center;
 }
 
 .section {
-  width: 33vw;
+  width: 50vw;
   height: fit-content;
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: clamp(1rem, 1rem + 1vw, 2rem);
   text-align: left;
   margin-bottom: 1rem;
+}
+
+.highcharts-background {
+  fill: var(--theme-background);
+}
+
+.highcharts-container text {
+  fill: var(--theme-font-color) !important;
+}
+
+.highcharts-tooltip text {
+  fill: var(--theme-background) !important;
+}
+
+.highcharts-grid-line {
+  stroke: var(--theme-font-color);
+  stroke-opacity: 0.2;
+}
+
+@media (max-width: 1024px) {
+  .section {
+    width: 90vw;
+  }
 }
